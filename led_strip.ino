@@ -63,11 +63,17 @@ void setup()
 }
 
 void loop() {
-  DateTime now = rtc.now();
   byte is_motion_detected = digitalRead(motionPin);
   updateWeather();
+  DateTime now = rtc.now();
   if (is_motion_detected == 1){
     makeLightDecision();
+  }else{
+    strip.clear();
+    strip.show();
+  }
+  if (now.hour()>=20 && is_motion_detected == 1){   
+    sunnyDay(strip.Color(30,0,50), 200);
   }else{
     strip.clear();
     strip.show();
@@ -157,7 +163,7 @@ void otherWeather(uint8_t red, uint8_t green, uint8_t blue, uint8_t wait) {
 void makeLightDecision() {
   DateTime now = rtc.now();
   if (data.main == "Clear"){
-    sunnyDay(strip.Color(200, 140, 0), 50);
+    sunnyDay(strip.Color(220, 140, 0), 50);
   }else if (data.main == "Clouds") {
     sunnyDay(strip.Color(80, 50, 20), 100);
   }else if (data.main == "Thunderstorm") {
@@ -167,8 +173,6 @@ void makeLightDecision() {
     strip.show();
   }else if (data.main == "Drizzle" || data.main == "Rain") {
 	  rainEffect(strip.Color(0, 0, 200), 250);
-  }else if((now.hour() > 19) && (now.hour() < 7)){
-	  sunnyDay(strip.Color(50,0,50), 200);
   }else{
     otherWeather(200,200,200,10);
   }
