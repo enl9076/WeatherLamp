@@ -1,4 +1,3 @@
-
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
 #include <JsonListener.h>
@@ -64,20 +63,17 @@ void setup()
 
 void loop() {
   byte is_motion_detected = digitalRead(motionPin);
-  updateWeather();
   DateTime now = rtc.now();
-  if (is_motion_detected == 1){
+  if ((now.hour()>=20 || now.hour()<=7) && is_motion_detected == 1){
+    sunnyDay(strip.Color(30,0,50), 200);
+  }else if (is_motion_detected == 1){   
+    updateWeather();
     makeLightDecision();
   }else{
     strip.clear();
     strip.show();
   }
-  if (now.hour()>=20 && is_motion_detected == 1){   
-    sunnyDay(strip.Color(30,0,50), 200);
-  }else{
-    strip.clear();
-    strip.show();
-  }
+  delay(100); 
 }
 
 void updateWeather() {
@@ -165,14 +161,14 @@ void makeLightDecision() {
   if (data.main == "Clear"){
     sunnyDay(strip.Color(220, 140, 0), 50);
   }else if (data.main == "Clouds") {
-    sunnyDay(strip.Color(80, 50, 20), 100);
+    sunnyDay(strip.Color(80, 50, 20), 150);
   }else if (data.main == "Thunderstorm") {
     lightning();
   }else if (data.main == "Tornado" || data.main ==  "Squall") {
     strip.Color(255, 0, 0);
     strip.show();
   }else if (data.main == "Drizzle" || data.main == "Rain") {
-	  rainEffect(strip.Color(0, 0, 200), 250);
+	  rainEffect(strip.Color(0, 0, 200), 300);
   }else{
     otherWeather(200,200,200,10);
   }
