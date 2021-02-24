@@ -10,12 +10,12 @@ RTC_Millis rtc;
 
 boolean IS_METRIC = false;
 
-const char* ssid = "TP-Link_F510";
-const char* password = "23263376";
+const char* ssid = "YOUR NETWORK";
+const char* password = "YOUR PASSWORD";
 
 String OPEN_WEATHER_MAP_LANGUAGE = "en";
-String OPEN_WEATHER_MAP_APP_ID = "56917cc227986aeab113d819b96220ab";
-String OPEN_WEATHER_MAP_LOCATION_ID = "4781708";
+String OPEN_WEATHER_MAP_APP_ID = "YOUR API KEY";
+String OPEN_WEATHER_MAP_LOCATION_ID = "YOUR LOCATION ID";
 
 WiFiClient wifiClient;
 
